@@ -213,9 +213,9 @@
         </div>
         );
 
-        // 聖誕帽組件
+        // 聖誕帽組件 - 上移位置
         const SantaHat = () => (
-        <svg className="absolute -top-5 -left-2 w-10 h-10 transform -rotate-12 pointer-events-none" viewBox="0 0 50 50">
+        <svg className="absolute -top-9 -left-4 w-10 h-10 transform -rotate-12 pointer-events-none" viewBox="0 0 50 50">
             <path d="M10 40 L25 10 L40 40 Q25 45 10 40 Z" fill="#D32F2F" />
             <circle cx="25" cy="8" r="4" fill="white" />
             <rect x="8" y="38" width="34" height="8" rx="4" fill="white" />
@@ -410,8 +410,8 @@
                     </button>
                 </header>
 
-                {/* Main Board - 改為 flex-col 且高度均分 */}
-                <main className="flex-1 flex flex-col md:flex-row relative z-10 p-1 md:p-4 gap-1 md:gap-0 overflow-hidden">
+                {/* Main Board - 改為 flex-row 以維持手機三欄顯示 */}
+                <main className="flex-1 flex flex-row relative z-10 p-1 md:p-4 gap-1 md:gap-0 overflow-hidden">
                     {teams.map((team, index) => (
                     <div 
                         key={team.id}
@@ -421,7 +421,8 @@
                         onClick={() => handleTeamClick(team.id)}
                         className={`
                         flex-1 flex flex-col items-center justify-start relative transition-all duration-300 min-h-0
-                        ${index !== teams.length - 1 ? 'border-b-2 md:border-b-0 md:border-r-2 border-gray-800/20 border-dashed pb-1 md:pb-0' : ''}
+                        /* 手機版統一用右分隔線，移除原本的底線設計 */
+                        ${index !== teams.length - 1 ? 'border-r-2 border-gray-800/20 border-dashed' : ''}
                         ${selectedTeamId === team.id ? 'bg-yellow-50/50 ring-2 md:ring-4 ring-yellow-400/30 rounded-lg' : ''}
                         hover:bg-gray-50/30 group/team
                         `}
@@ -431,13 +432,13 @@
                         )}
 
                         {/* 隊名 & 清除按鈕 */}
-                        <div className="mt-2 md:mt-6 w-3/4 flex items-end justify-center relative shrink-0">
+                        <div className="mt-2 md:mt-6 w-full px-1 md:w-3/4 flex items-end justify-center relative shrink-0">
                         <div className="relative w-full text-center">
                             <input
                             type="text"
                             value={team.name}
                             onChange={(e) => handleNameChange(team.id, e.target.value)}
-                            className="w-full text-center text-xl md:text-4xl font-tw-serif-bold bg-transparent border-b border-gray-800 focus:border-blue-500 outline-none pb-1 text-gray-700 transition-colors"
+                            className="w-full text-center text-lg md:text-4xl font-tw-serif-bold bg-transparent border-b border-gray-800 focus:border-blue-500 outline-none pb-1 text-gray-700 transition-colors"
                             style={{ borderColor: selectedTeamId === team.id ? team.color : 'rgba(0,0,0,0.6)' }}
                             />
                         </div>
@@ -446,7 +447,7 @@
                             e.stopPropagation();
                             setResetTarget(team.id);
                             }}
-                            className="absolute -right-6 top-1 text-gray-300 hover:text-red-500 hover:bg-red-50 p-1 rounded-full transition-all md:opacity-0 group-hover/team:opacity-100"
+                            className="absolute -right-1 md:-right-6 top-1 text-gray-300 hover:text-red-500 hover:bg-red-50 p-1 rounded-full transition-all md:opacity-0 group-hover/team:opacity-100"
                         >
                             <Eraser size={16} />
                         </button>
@@ -459,13 +460,13 @@
                             <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200/80 blur-md rounded-full transform rotate-12"></div>
                             </div>
                         )}
-                        <div className="text-6xl md:text-9xl font-marker transition-all duration-300 drop-shadow-sm leading-none" style={{ color: team.color }}>
+                        <div className="text-5xl md:text-9xl font-marker transition-all duration-300 drop-shadow-sm leading-none" style={{ color: team.color }}>
                             {team.score}
                         </div>
                         </div>
 
                         {/* 得分歷程 (History) - 手機版縮小圓點 */}
-                        <div className="w-full px-2 md:px-4 mb-2 relative shrink-0">
+                        <div className="w-full px-1 md:px-4 mb-2 relative shrink-0">
                             <div className="flex flex-wrap justify-center gap-1 md:gap-2 content-start p-1 md:p-4 bg-white/30 rounded-lg border border-gray-200/50 border-dashed h-12 md:h-auto overflow-y-auto no-scrollbar">
                             {team.history.map((record) => (
                                 <div 
