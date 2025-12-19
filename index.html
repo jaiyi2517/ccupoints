@@ -87,13 +87,14 @@
                 }
 
                 /* 塗改效果動畫 */
-                @keyframes smudge {
-                0% { opacity: 0; transform: scale(0.8) rotate(0deg); }
-                20% { opacity: 0.8; transform: scale(1.1) rotate(-5deg); }
-                40% { opacity: 0.9; transform: scale(1.1) rotate(5deg); }
-                60% { opacity: 0.8; transform: scale(1.1) rotate(-3deg); }
-                100% { opacity: 0; transform: scale(1) rotate(0deg); }
-                }
+               /* 位置：約第 103 行左右 */
+@keyframes smudge {
+    0% { opacity: 0; transform: scale(0.8) rotate(0deg); }
+    20% { opacity: 0.9; transform: scale(1.1) rotate(-5deg); }
+    40% { opacity: 1; transform: scale(1.1) rotate(5deg); } /* 強制設為全不透明，遮擋數字 */
+    60% { opacity: 0.9; transform: scale(1.1) rotate(-3deg); }
+    100% { opacity: 0; transform: scale(1) rotate(0deg); }
+}
                 .animate-smudge {
                 animation: smudge 0.6s ease-out forwards;
                 }
@@ -554,5 +555,6 @@ const addScore = (teamId, points) => {
     </script>
 </body>
 </html>
+
 
 
