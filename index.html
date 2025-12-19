@@ -184,8 +184,8 @@
           // 使用 useMemo 生成隨機的背景裝飾元素，避免重複渲染時閃爍
           const doodles = useMemo(() => {
             const symbols = ['❆', '⍋', '⛧'];
-            // 生成 20 個隨機分佈的裝飾
-            return Array.from({ length: 20 }).map((_, i) => ({
+            // 生成 15 個隨機分佈的裝飾
+            return Array.from({ length:15 }).map((_, i) => ({
               id: i,
               symbol: symbols[Math.floor(Math.random() * symbols.length)],
               top: `${Math.random() * 95}%`,
@@ -198,12 +198,12 @@
           return (
             <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
                 <svg className="absolute top-10 -left-10 w-64 h-64 opacity-[0.15] transform -rotate-12 text-gray-600" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="2" />
+                <circle cx="45" cy="45" r="40" fill="none" stroke="currentColor" strokeWidth="2" />
                 <path d="M25 30 Q45 50 25 70" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="3,3" />
                 <path d="M75 30 Q55 50 75 70" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="3,3" />
                 </svg>
 
-                <svg className="absolute top-5 right-5 w-48 h-48 opacity-[0.1] text-green-800 transform rotate-6" viewBox="0 0 100 100">
+                <svg className="absolute bottom-60 right-5 w-48 h-48 opacity-[0.1] text-green-700 transform rotate-6" viewBox="0 0 100 100">
                 <path d="M50 10 L80 40 H60 L85 70 H55 L60 90 H40 L45 70 H15 L40 40 H20 Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
                 <circle cx="50" cy="10" r="3" fill="currentColor" opacity="0.4" />
                 <circle cx="30" cy="50" r="2" fill="currentColor" opacity="0.4" />
