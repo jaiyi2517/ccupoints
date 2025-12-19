@@ -272,20 +272,28 @@
                 setTeams(teams.map(t => t.id === id ? { ...t, name: newName } : t));
             };
 
-            const addScore = (teamId, points) => {
-                setUpdatingTeamId(teamId);
-                setTimeout(() => setUpdatingTeamId(null), 600);
-                setTeams(prevTeams => prevTeams.map(team => {
-                if (team.id === teamId) {
-                    return {
+const addScore = (teamId, points) => {
+    // 1. 先啟動塗改動畫 (讓遮罩出現)
+    setUpdatingTeamId(teamId);
+    
+    // 2. 延遲 250ms 才更新分數 (新增了這個 setTimeout)
+    // 這是為了配合塗改動畫，等遮罩最不透明的時候偷偷換數字
+    setTimeout(() => {
+        setTeams(prevTeams => prevTeams.map(team => {
+            if (team.id === teamId) {
+                return {
                     ...team,
                     score: team.score + points,
                     history: [...team.history, { val: points, id: Date.now() + Math.random() }]
-                    };
-                }
-                return team;
-                }));
-            };
+                };
+            }
+            return team;
+        }));
+    }, 250); // <-- 這裡設定延遲 250 毫秒
+
+    // 3. 動畫結束後 (600ms) 清除狀態
+    setTimeout(() => setUpdatingTeamId(null), 600);
+};
 
             // HTML5 Drag Handlers (Desktop)
             const handleDragStart = (e, value) => {
@@ -473,11 +481,13 @@
 
                         {/* 分數顯示區 */}
                         <div className="my-1 md:my-4 relative w-full flex-1 flex items-center justify-center shrink min-h-0">
-                        {updatingTeamId === team.id && (
-                            <div className="absolute inset-0 flex items-center justify-center z-20 animate-smudge pointer-events-none">
-                            <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200/80 blur-md rounded-full transform rotate-12"></div>
-                            </div>
-                        )}
+// 位置：約第 575 行左右 (JSX 渲染區塊內)
+{updatingTeamId === team.id && (
+    <div className="absolute inset-0 flex items-center justify-center z-20 animate-smudge pointer-events-none">
+    {/* 修改處：將原本的 bg-gray-200/80 改為更深的 bg-gray-300/90 */}
+    <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-300/90 blur-md rounded-full transform rotate-12"></div>
+    </div>
+)}
                         <div className="text-5xl md:text-9xl font-marker transition-all duration-300 drop-shadow-sm leading-none" style={{ color: team.color }}>
                             {team.score}
                         </div>
@@ -544,4 +554,5 @@
     </script>
 </body>
 </html>
+
 
