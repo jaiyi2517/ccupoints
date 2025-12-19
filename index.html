@@ -213,7 +213,7 @@
         </div>
         );
 
-        // 聖誕帽組件 - 上移位置
+        // 聖誕帽組件
         const SantaHat = () => (
         <svg className="absolute -top-9 -left-4 w-10 h-10 transform -rotate-12 pointer-events-none" viewBox="0 0 50 50">
             <path d="M10 40 L25 10 L40 40 Q25 45 10 40 Z" fill="#D32F2F" />
@@ -410,8 +410,8 @@
                     </button>
                 </header>
 
-                {/* Main Board - 改為 flex-row 以維持手機三欄顯示 */}
-                <main className="flex-1 flex flex-row relative z-10 p-1 md:p-4 gap-1 md:gap-0 overflow-hidden">
+                {/* Main Board - 改為 flex-row 以維持手機三欄顯示，移除 gap-1 改為 gap-0 */}
+                <main className="flex-1 flex flex-row relative z-10 p-1 md:p-4 gap-0 overflow-hidden">
                     {teams.map((team, index) => (
                     <div 
                         key={team.id}
@@ -421,8 +421,8 @@
                         onClick={() => handleTeamClick(team.id)}
                         className={`
                         flex-1 flex flex-col items-center justify-start relative transition-all duration-300 min-h-0
-                        /* 手機版統一用右分隔線，移除原本的底線設計 */
-                        ${index !== teams.length - 1 ? 'border-r-2 border-gray-800/20 border-dashed' : ''}
+                        /* 調整分隔線：加深顏色 border-gray-400，確保可見 */
+                        ${index !== teams.length - 1 ? 'border-r-2 border-gray-400 border-dashed' : ''}
                         ${selectedTeamId === team.id ? 'bg-yellow-50/50 ring-2 md:ring-4 ring-yellow-400/30 rounded-lg' : ''}
                         hover:bg-gray-50/30 group/team
                         `}
@@ -487,8 +487,8 @@
                 <footer className="flex-none relative z-20 bg-gray-100/90 border-t-4 border-gray-300 p-2 md:p-6 shadow-2xl">
                     <div className="max-w-5xl mx-auto">
                     {/* 操作說明 */}
-                    <div id="instruction-text" className="text-center mb-2 md:mb-4 text-gray-400 text-[10px] md:text-sm font-hand flex flex-wrap items-center justify-center gap-2 opacity-80">
-                        <span>拖曳磁鐵 (Drag) 或 點選組別 + 按數字 (Click)</span>
+                    <div id="instruction-text" className="text-center mb-2 md:mb-4 text-gray-400 text-[12px] md:text-sm font-hand flex flex-wrap items-center justify-center gap-2 opacity-80">
+                        <span>直接拖曳磁鐵 或 點選組別+按數字</span>
                     </div>
                     
                     <div className="flex flex-wrap justify-center gap-2 md:gap-6">
