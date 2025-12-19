@@ -485,7 +485,7 @@ const addScore = (teamId, points) => {
 {updatingTeamId === team.id && (
     <div className="absolute inset-0 flex items-center justify-center z-20 animate-smudge pointer-events-none">
     {/* 修改處：將原本的 bg-gray-200/80 改為更深的 bg-gray-300/90 */}
-    <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-300/90 blur-md rounded-full transform rotate-12"></div>
+    <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200/80 blur-md rounded-full transform rotate-12"></div>
     </div>
 )}
                         <div className="text-5xl md:text-9xl font-marker transition-all duration-300 drop-shadow-sm leading-none" style={{ color: team.color }}>
@@ -554,6 +554,7 @@ const addScore = (teamId, points) => {
     </script>
 </body>
 </html>
+
 
 
 
