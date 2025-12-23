@@ -87,19 +87,18 @@
                 }
 
                 /* 塗改效果動畫 */
-               /* 位置：約第 103 行左右 */
-@keyframes smudge {
-    0% { opacity: 0; transform: scale(0.8) rotate(0deg); }
-    20% { opacity: 0.9; transform: scale(1.1) rotate(-5deg); }
-    40% { opacity: 1; transform: scale(1.1) rotate(5deg); } /* 強制設為全不透明，遮擋數字 */
-    60% { opacity: 0.9; transform: scale(1.1) rotate(-3deg); }
-    100% { opacity: 0; transform: scale(1) rotate(0deg); }
-}
+                @keyframes smudge {
+                0% { opacity: 0; transform: scale(0.8) rotate(0deg); }
+                20% { opacity: 0.9; transform: scale(1.1) rotate(-5deg); }
+                40% { opacity: 1; transform: scale(1.1) rotate(5deg); } /* 最不透明時 */
+                60% { opacity: 0.9; transform: scale(1.1) rotate(-3deg); }
+                100% { opacity: 0; transform: scale(1) rotate(0deg); }
+                }
                 .animate-smudge {
-                animation: smudge 0.6s ease-out forwards;
+                animation: smudge 0.4s ease-out forwards;
                 }
 
-                /* 升級版磁鐵樣式：#355d79 */
+                /* 升級版磁鐵樣式：預設 #355d79 (藍色) */
                 .magnet {
                 background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%), #355d79; 
                 box-shadow: 
@@ -112,6 +111,12 @@
                 position: relative;
                 touch-action: none; /* 重要：防止觸控時滾動 */
                 }
+                
+                /* 紅色磁鐵樣式 (用於 -1) */
+                .magnet-red {
+                background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%), #dc2626; 
+                }
+
                 .magnet::after {
                 content: '';
                 position: absolute;
@@ -182,41 +187,51 @@
 
         // 背景塗鴉組件
         const BackgroundDoodles = () => {
-          // 使用 useMemo 生成隨機的背景裝飾元素，避免重複渲染時閃爍
+          // 使用 useMemo 生成隨機的背景裝飾元素
           const doodles = useMemo(() => {
             const symbols = ['❆', '⍋', '⛧'];
-            // 生成 15 個隨機分佈的裝飾
-            return Array.from({ length:15 }).map((_, i) => ({
+            return Array.from({ length: 20 }).map((_, i) => ({
               id: i,
               symbol: symbols[Math.floor(Math.random() * symbols.length)],
               top: `${Math.random() * 95}%`,
               left: `${Math.random() * 95}%`,
-              rotation: `${Math.random() * 60 - 30}deg`, // -30 到 30 度隨機旋轉
-              size: `${Math.floor(Math.random() * 1 + 2)}rem` // 3rem 到 5rem 隨機大小
+              rotation: `${Math.random() * 60 - 30}deg`, 
+              size: `${Math.floor(Math.random() * 2 + 3)}rem`
             }));
           }, []);
 
           return (
             <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
                 <svg className="absolute top-10 -left-10 w-64 h-64 opacity-[0.15] transform -rotate-12 text-gray-600" viewBox="0 0 100 100">
-                <circle cx="45" cy="45" r="40" fill="none" stroke="currentColor" strokeWidth="2" />
+                <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="2" />
                 <path d="M25 30 Q45 50 25 70" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="3,3" />
                 <path d="M75 30 Q55 50 75 70" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="3,3" />
                 </svg>
 
-                <svg className="absolute bottom-60 right-5 w-48 h-48 opacity-[0.1] text-green-700 transform rotate-6" viewBox="0 0 100 100">
+                <svg className="absolute top-5 right-5 w-48 h-48 opacity-[0.1] text-green-800 transform rotate-6" viewBox="0 0 100 100">
                 <path d="M50 10 L80 40 H60 L85 70 H55 L60 90 H40 L45 70 H15 L40 40 H20 Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
                 <circle cx="50" cy="10" r="3" fill="currentColor" opacity="0.4" />
                 <circle cx="30" cy="50" r="2" fill="currentColor" opacity="0.4" />
                 <circle cx="70" cy="60" r="2" fill="currentColor" opacity="0.4" />
                 </svg>
 
+                <svg className="absolute bottom-0 left-5 w-56 h-56 opacity-[0.1] transform -rotate-6" viewBox="0 0 100 100">
+                <path d="M30 90 V40 Q30 20 50 20 Q70 20 70 40" fill="none" stroke="#D32F2F" strokeWidth="4" strokeLinecap="round" />
+                <path d="M30 50 H34 M30 60 H34 M30 70 H34" stroke="#D32F2F" strokeWidth="2" />
+                <path d="M60 90 L80 30 Q82 20 86 20 Q90 20 92 30 L95 90 Q77 95 60 90 Z" fill="none" stroke="#374151" strokeWidth="2" />
+                </svg>
 
-                {/* 隨機散佈的文字裝飾元素 */}
+                <svg className="absolute bottom-10 -right-5 w-40 h-40 opacity-[0.12] transform rotate-12" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="30" fill="none" stroke="#374151" strokeWidth="2" />
+                <path d="M28 35 Q40 50 28 65" fill="none" stroke="#D32F2F" strokeWidth="1" strokeDasharray="2,2" />
+                <path d="M72 35 Q60 50 72 65" fill="none" stroke="#D32F2F" strokeWidth="1" strokeDasharray="2,2" />
+                <path d="M50 10 V20 M50 80 V90 M10 50 H20 M80 50 H90 M20 20 L30 30 M70 70 L80 80 M20 80 L30 70 M70 30 L80 20" stroke="#1E3A8A" strokeWidth="2" opacity="0.5" />
+                </svg>
+
                 {doodles.map((item) => (
                   <div 
                     key={item.id}
-                    className="absolute text-blue-200 opacity-30 font-hand"
+                    className="absolute text-blue-200 opacity-35 font-hand"
                     style={{
                       top: item.top,
                       left: item.left,
@@ -231,12 +246,12 @@
           );
         };
 
-// 聖誕帽組件
+        // 聖誕帽組件
         const SantaHat = () => (
-        <svg className="absolute -top-6 -left-1 w-10 h-10 transform -rotate-12 pointer-events-none" viewBox="0 0 50 50">
+        <svg className="absolute -top-9 -left-4 w-10 h-10 transform -rotate-12 pointer-events-none" viewBox="0 0 50 50">
             <path d="M10 40 L25 10 L40 40 Q25 45 10 40 Z" fill="#D32F2F" />
-            <circle cx="25" cy="8" r="4" fill="#efefef" />
-            <rect x="8" y="38" width="34" height="8" rx="4" fill="#efefef" />
+            <circle cx="25" cy="8" r="4" fill="white" />
+            <rect x="8" y="38" width="34" height="8" rx="4" fill="white" />
         </svg>
         );
 
@@ -273,28 +288,27 @@
                 setTeams(teams.map(t => t.id === id ? { ...t, name: newName } : t));
             };
 
-const addScore = (teamId, points) => {
-    // 1. 先啟動塗改動畫 (讓遮罩出現)
-    setUpdatingTeamId(teamId);
-    
-    // 2. 延遲 250ms 才更新分數 (新增了這個 setTimeout)
-    // 這是為了配合塗改動畫，等遮罩最不透明的時候偷偷換數字
-    setTimeout(() => {
-        setTeams(prevTeams => prevTeams.map(team => {
-            if (team.id === teamId) {
-                return {
-                    ...team,
-                    score: team.score + points,
-                    history: [...team.history, { val: points, id: Date.now() + Math.random() }]
-                };
-            }
-            return team;
-        }));
-    }, 250); // <-- 這裡設定延遲 250 毫秒
+            const addScore = (teamId, points) => {
+                // 1. 啟動塗改動畫 (遮罩出現)
+                setUpdatingTeamId(teamId);
+                
+                // 2. 延遲 250ms 更新分數 (配合塗改遮罩最濃的時候)
+                setTimeout(() => {
+                    setTeams(prevTeams => prevTeams.map(team => {
+                        if (team.id === teamId) {
+                            return {
+                                ...team,
+                                score: team.score + points,
+                                history: [...team.history, { val: points, id: Date.now() + Math.random() }]
+                            };
+                        }
+                        return team;
+                    }));
+                }, 250);
 
-    // 3. 動畫結束後 (600ms) 清除狀態
-    setTimeout(() => setUpdatingTeamId(null), 600);
-};
+                // 3. 動畫結束後 (600ms) 清除狀態
+                setTimeout(() => setUpdatingTeamId(null), 600);
+            };
 
             // HTML5 Drag Handlers (Desktop)
             const handleDragStart = (e, value) => {
@@ -336,18 +350,15 @@ const addScore = (teamId, points) => {
                 if (!touchDrag.active) return;
                 e.stopPropagation();
 
-                // 檢測手指放開位置的元素
                 const touch = e.changedTouches[0];
                 const target = document.elementFromPoint(touch.clientX, touch.clientY);
                 
-                // 尋找最近的隊伍區塊
                 const teamDiv = target?.closest('[data-team-id]');
                 
                 if (teamDiv) {
                     const teamId = teamDiv.getAttribute('data-team-id');
                     addScore(teamId, touchDrag.value);
                 } else {
-                    // 如果沒有拖到隊伍區，視為點擊
                     handleMagnetClick(touchDrag.value);
                 }
 
@@ -380,15 +391,14 @@ const addScore = (teamId, points) => {
             };
 
             return (
-                // 修正：使用 fixed inset-0 與 h-[100dvh] 來確保在手機瀏覽器上能正確填滿視窗，不被工具列遮擋
                 <div className="fixed inset-0 h-[100dvh] w-full whiteboard-bg font-sans text-gray-800 flex flex-col overflow-hidden select-none relative">
                 <FontStyles />
                 <BackgroundDoodles />
 
-                {/* Ghost Magnet for Touch Drag */}
+                {/* Ghost Magnet for Touch Drag (包含紅色判斷) */}
                 {touchDrag.active && (
                     <div 
-                        className="magnet w-16 h-16 rounded-full flex items-center justify-center text-3xl font-marker text-white ghost-magnet shadow-2xl"
+                        className={`magnet w-16 h-16 rounded-full flex items-center justify-center text-3xl font-marker text-white ghost-magnet shadow-2xl ${touchDrag.value < 0 ? 'magnet-red' : ''}`}
                         style={{ left: touchDrag.x, top: touchDrag.y }}
                     >
                         {touchDrag.value}
@@ -437,7 +447,7 @@ const addScore = (teamId, points) => {
                     </button>
                 </header>
 
-                {/* Main Board - 改為 flex-row 以維持手機三欄顯示，移除 gap-1 改為 gap-0 */}
+                {/* Main Board */}
                 <main className="flex-1 flex flex-row relative z-10 p-1 md:p-4 gap-0 overflow-hidden">
                     {teams.map((team, index) => (
                     <div 
@@ -448,7 +458,6 @@ const addScore = (teamId, points) => {
                         onClick={() => handleTeamClick(team.id)}
                         className={`
                         flex-1 flex flex-col items-center justify-start relative transition-all duration-300 min-h-0
-                        /* 調整分隔線：加深顏色 border-gray-400，確保可見 */
                         ${index !== teams.length - 1 ? 'border-r-2 border-gray-400 border-dashed' : ''}
                         ${selectedTeamId === team.id ? 'bg-yellow-50/50 ring-2 md:ring-4 ring-yellow-400/30 rounded-lg' : ''}
                         hover:bg-gray-50/30 group/team
@@ -482,18 +491,17 @@ const addScore = (teamId, points) => {
 
                         {/* 分數顯示區 */}
                         <div className="my-1 md:my-4 relative w-full flex-1 flex items-center justify-center shrink min-h-0">
-{updatingTeamId === team.id && (
-    <div className="absolute inset-0 flex items-center justify-center z-20 animate-smudge pointer-events-none">
-    {/* 修改處：將原本的 bg-gray-200/80 改為更深的 bg-gray-300/90 */}
-    <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200/80 blur-md rounded-full transform rotate-12"></div>
-    </div>
-)}
+                        {updatingTeamId === team.id && (
+                            <div className="absolute inset-0 flex items-center justify-center z-20 animate-smudge pointer-events-none">
+                            <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-300/90 blur-md rounded-full transform rotate-12"></div>
+                            </div>
+                        )}
                         <div className="text-5xl md:text-9xl font-marker transition-all duration-300 drop-shadow-sm leading-none" style={{ color: team.color }}>
                             {team.score}
                         </div>
                         </div>
 
-                        {/* 得分歷程 (History) - 手機版縮小圓點 */}
+                        {/* 得分歷程 (History) */}
                         <div className="w-full px-1 md:px-4 mb-2 relative shrink-0">
                             <div className="flex flex-wrap justify-center gap-1 md:gap-2 content-start p-1 md:p-4 bg-white/30 rounded-lg border border-gray-200/50 border-dashed h-12 md:h-auto overflow-y-auto no-scrollbar">
                             {team.history.map((record) => (
@@ -512,7 +520,6 @@ const addScore = (teamId, points) => {
                 </main>
 
                 {/* Footer Controls */}
-                {/* 增加底部 padding pb-4 md:pb-6 以應對手機下方 Home Bar */}
                 <footer className="flex-none relative z-20 bg-gray-100/90 border-t-4 border-gray-300 p-2 pb-4 md:p-6 shadow-2xl safe-area-bottom">
                     <div className="max-w-5xl mx-auto">
                     {/* 操作說明 */}
@@ -521,6 +528,28 @@ const addScore = (teamId, points) => {
                     </div>
                     
                     <div className="flex flex-wrap justify-center gap-2 md:gap-6">
+                        {/* 扣分磁鐵 (-1) */}
+                        <div
+                            key={-1}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, -1)}
+                            onClick={() => handleMagnetClick(-1)}
+                            onTouchStart={(e) => handleTouchStart(e, -1)}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
+                            className={`
+                            magnet magnet-red w-10 h-10 md:w-16 md:h-16 rounded-full 
+                            flex items-center justify-center 
+                            text-xl md:text-3xl font-marker text-white
+                            scribble-hover
+                            transition-transform active:scale-90
+                            `}
+                            style={{ paddingTop: '2px' }}
+                        >
+                            -1
+                        </div>
+
+                        {/* 一般磁鐵 (1-10) */}
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                         <div
                             key={num}
@@ -554,8 +583,3 @@ const addScore = (teamId, points) => {
     </script>
 </body>
 </html>
-
-
-
-
-
